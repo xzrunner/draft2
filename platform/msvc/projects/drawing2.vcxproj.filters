@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="editop">
+      <UniqueIdentifier>{5b8bec50-c1de-4b7a-9bc0-b266ae0fa4b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="editop\select">
+      <UniqueIdentifier>{e00be960-7104-4606-8d08-4b7e06ee4990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="editop\utility">
+      <UniqueIdentifier>{c8068659-350c-478f-a7bf-18a74682e250}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="editop\modify">
+      <UniqueIdentifier>{ff92cba5-a83e-4d6c-8d0d-66667a8bb426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="editop\modify\state">
+      <UniqueIdentifier>{3c3bacb1-ed78-4a8b-a419-79b0140caf24}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\drawing2\EditPointState.h">
+      <Filter>editop\modify\state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\SelectShapeOP.h">
+      <Filter>editop\select</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\EditShapeOP.h">
+      <Filter>editop\modify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\ShapeCapture.h">
+      <Filter>editop\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\EditRectState.h">
+      <Filter>editop\modify\state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\EditCircleState.h">
+      <Filter>editop\modify\state</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\EditPolylineOP.h">
+      <Filter>editop\modify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\DrawLineUtility.h">
+      <Filter>editop\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\RenderStyle.h">
+      <Filter>editop</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\EditPointState.cpp">
+      <Filter>editop\modify\state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\SelectShapeOP.cpp">
+      <Filter>editop\select</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EditShapeOP.cpp">
+      <Filter>editop\modify</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ShapeCapture.cpp">
+      <Filter>editop\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EditRectState.cpp">
+      <Filter>editop\modify\state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EditCircleState.cpp">
+      <Filter>editop\modify\state</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EditPolylineOP.cpp">
+      <Filter>editop\modify</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DrawLineUtility.cpp">
+      <Filter>editop\utility</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
