@@ -3,7 +3,6 @@
 #include "drawing2/ShapeCapture.h"
 
 #include <ee0/EditOP.h>
-#include <ee0/typedef.h>
 
 #include <SM_Vector.h>
 
@@ -16,7 +15,7 @@ namespace dw2
 class EditPolylineOP : public ee0::EditOP
 {
 public:
-	EditPolylineOP(const std::shared_ptr<pt0::Camera>& cam, const ee0::SubjectMgrPtr& sub_mgr,
+	EditPolylineOP(const std::shared_ptr<pt0::Camera>& cam, EditView& view,
 		std::function<ShapeCapture::NodeRef()> get_selected, bool is_closed);
 
 	virtual bool OnMouseLeftDown(int x, int y) override;
@@ -40,7 +39,7 @@ protected:
 	sm::vec2 m_curr_pos;
 
 private:
-	ee0::SubjectMgrPtr m_sub_mgr;
+	EditView& m_view;
 
 	std::function<ShapeCapture::NodeRef()> m_get_selected;
 

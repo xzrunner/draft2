@@ -16,18 +16,12 @@ namespace dw2
 {
 
 ShapeCapture::NodeRef
-ShapeCapture::Capture(const ee0::SceneNodeContainer& nodes, float threshold, const sm::vec2& pos)
+ShapeCapture::Capture(const EditView& view, float threshold, const sm::vec2& pos)
 {
 	ShapeCapture::NodeRef ret;
 
-	nodes.Traverse([&](const ee0::GameObj& obj)->bool
+	view.Traverse([&](const std::shared_ptr<gs::Shape>& shape)->bool
 	{
-		if (!obj->HasUniqueComp<n2::CompShape>()) {
-			return true;
-		}
-
-		auto& cshape = obj->GetUniqueComp<n2::CompShape>();
-		auto& shape = cshape.GetShape();
 		auto type = shape->get_type();
 
 		ShapeCapture::NodeRef cap;
@@ -38,7 +32,11 @@ ShapeCapture::Capture(const ee0::SceneNodeContainer& nodes, float threshold, con
 		} else if (type == rttr::type::get<gs::Circle>()) {
 			cap = CaptureCircle(shape, threshold, pos);
 		} else if (type == rttr::type::get<gs::Polyline>()) {
-			cap = CapturePolyline(shape, threshold, pos);
+			auto& vs = std::static_pointer_cast<gs::Polyline>(shape)->GetVertices();
+			cap = CapturePoly(shape, vs, threshold, pos);
+		} else if (type == rttr::type::get<gs::Polygon>()) {
+			auto& vs = std::static_pointer_cast<gs::Polygon>(shape)->GetVertices();
+			cap = CapturePoly(shape, vs, threshold, pos);
 		}
 
 		if (!cap.shape)
@@ -46,7 +44,6 @@ ShapeCapture::Capture(const ee0::SceneNodeContainer& nodes, float threshold, con
 			auto shape2d = std::dynamic_pointer_cast<gs::Shape2D>(shape);
 			if (shape2d->IsIntersect(sm::rect(pos, threshold, threshold))) {
 				cap.type = NodeRef::Type::SHAPE;
-				cap.obj = obj;
 				cap.shape = shape;
 				cap.pos.MakeInvalid();
 			}
@@ -54,7 +51,6 @@ ShapeCapture::Capture(const ee0::SceneNodeContainer& nodes, float threshold, con
 
 		if (cap.shape) {
 			ret = cap;
-			ret.obj = obj;
 			return false;
 		} else {
 			return true;
@@ -136,21 +132,20 @@ ShapeCapture::CaptureCircle(const std::shared_ptr<gs::Shape>& shape, float thres
 }
 
 ShapeCapture::NodeRef
-ShapeCapture::CapturePolyline(const std::shared_ptr<gs::Shape>& shape, float threshold, const sm::vec2& pos)
+ShapeCapture::CapturePoly(const std::shared_ptr<gs::Shape>& shape, const std::vector<sm::vec2>& verts, float threshold, const sm::vec2& pos)
 {
-	ShapeCapture::NodeRef ret;
+	dw2::ShapeCapture::NodeRef ret;
 
-	auto& vs = std::static_pointer_cast<gs::Polyline>(shape)->GetVertices();
-	if (vs.empty()) {
+	if (verts.empty()) {
 		return ret;
 	}
 
 	sm::vec2 center;
-	for (auto& v : vs)
+	for (auto& v : verts)
 	{
 		if (sm::dis_pos_to_pos(v, pos) < threshold)
 		{
-			ret.type = NodeRef::Type::CTRL_NODE;
+			ret.type = dw2::ShapeCapture::NodeRef::Type::CTRL_NODE;
 			ret.shape = shape;
 			ret.pos = v;
 			return ret;
@@ -158,10 +153,10 @@ ShapeCapture::CapturePolyline(const std::shared_ptr<gs::Shape>& shape, float thr
 		center += v;
 	}
 
-	center /= static_cast<float>(vs.size());
+	center /= static_cast<float>(verts.size());
 	if (sm::dis_pos_to_pos(center, pos) < threshold)
 	{
-		ret.type = NodeRef::Type::SHAPE;
+		ret.type = dw2::ShapeCapture::NodeRef::Type::SHAPE;
 		ret.shape = shape;
 		ret.pos = center;
 	}

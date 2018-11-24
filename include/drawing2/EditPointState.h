@@ -3,7 +3,6 @@
 #include "drawing2/ShapeCapture.h"
 
 #include <ee0/EditOpState.h>
-#include <ee0/typedef.h>
 
 #include <functional>
 
@@ -12,10 +11,12 @@ namespace gs { class Shape; }
 namespace dw2
 {
 
+class EditView;
+
 class EditPointState : public ee0::EditOpState
 {
 public:
-	EditPointState(const std::shared_ptr<pt0::Camera>& camera, const ee0::SubjectMgrPtr& sub_mgr,
+	EditPointState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,
 		std::function<ShapeCapture::NodeRef()> get_selected);
 
 	virtual bool OnMousePress(int x, int y) override;
@@ -25,7 +26,7 @@ public:
 	virtual bool Clear() override;
 
 private:
-	ee0::SubjectMgrPtr m_sub_mgr;
+	EditView& m_view;
 
 	std::function<ShapeCapture::NodeRef()> m_get_selected;
 

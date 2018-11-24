@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ee0/typedef.h>
+
 #include "drawing2/SelectShapeOP.h"
 
 namespace gs { class Shape; }
@@ -10,8 +12,8 @@ namespace dw2
 class EditShapeOP : public SelectShapeOP
 {
 public:
-	EditShapeOP(const std::shared_ptr<pt0::Camera>& cam, const ee0::SubjectMgrPtr& sub_mgr,
-		const ee0::SceneNodeContainer& nodes, float capture_threshold, uint32_t shape_type);
+	EditShapeOP(const std::shared_ptr<pt0::Camera>& cam, EditView& view,
+		float capture_threshold, uint32_t shape_type);
 
 	virtual bool OnKeyDown(int key_code) override;
 
@@ -29,6 +31,8 @@ public:
 	void ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape> selected = nullptr);
 
 private:
+	EditView& m_view;
+
 	uint32_t m_shape_type = 0;
 
 	ee0::EditOPPtr m_proxy_op = nullptr;

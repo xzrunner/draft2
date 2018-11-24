@@ -5,23 +5,22 @@
 #include "drawing2/EditCircleState.h"
 #include "drawing2/EditPolylineOP.h"
 
-#include <ee0/SubjectMgr.h>
-#include <ee0/MessageID.h>
-#include <ee0/MsgHelper.h>
-
 #include <geoshape/Point2D.h>
 #include <geoshape/Rect.h>
 #include <geoshape/Circle.h>
 #include <geoshape/Polyline.h>
+#include <geoshape/Polygon.h>
 
 #include <wx/defs.h>
 
 namespace dw2
 {
 
-EditShapeOP::EditShapeOP(const std::shared_ptr<pt0::Camera>& cam, const ee0::SubjectMgrPtr& sub_mgr,
-	                     const ee0::SceneNodeContainer& nodes, float capture_threshold, uint32_t shape_type)
-	: SelectShapeOP(cam, sub_mgr, nodes, capture_threshold)
+EditShapeOP::EditShapeOP(const std::shared_ptr<pt0::Camera>& cam, EditView& view,
+	                     float capture_threshold, uint32_t shape_type)
+	: SelectShapeOP(cam, view, capture_threshold)
+
+	, m_view(view)
 {
 	ChangeEditState(shape_type, nullptr);
 }
@@ -38,8 +37,7 @@ bool EditShapeOP::OnKeyDown(int key_code)
 	if (key_code == WXK_DELETE)
 	{
 		if (m_active.shape) {
-			ee0::MsgHelper::DeleteNode(*m_sub_mgr, m_active.obj);
-			m_sub_mgr->NotifyObservers(ee0::MSG_NODE_SELECTION_CLEAR);
+			m_view.Delete(m_active.shape);
 			Clear();
 		}
 	}
@@ -93,8 +91,7 @@ bool EditShapeOP::OnMouseRightDown(int x, int y)
 	}
 
 	if (m_active.shape) {
-		ee0::MsgHelper::DeleteNode(*m_sub_mgr, m_active.obj);
-		m_sub_mgr->NotifyObservers(ee0::MSG_NODE_SELECTION_CLEAR);
+		m_view.Delete(m_active.shape);
 		Clear();
 	}
 
@@ -191,17 +188,21 @@ void EditShapeOP::ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape
 
 	auto get_selected = [&]() { return m_active; };
 	if (shape_type == rttr::type::get<gs::Point2D>().get_id()) {
-		ChangeEditOpState(std::make_shared<EditPointState>(m_camera, m_sub_mgr, get_selected));
+		ChangeEditOpState(std::make_shared<EditPointState>(m_camera, m_view, get_selected));
 	} else if (shape_type == rttr::type::get<gs::Rect>().get_id()) {
-		ChangeEditOpState(std::make_shared<EditRectState>(m_camera, m_sub_mgr, get_selected));
+		ChangeEditOpState(std::make_shared<EditRectState>(m_camera, m_view, get_selected));
 	} else if (shape_type == rttr::type::get<gs::Circle>().get_id()) {
-		ChangeEditOpState(std::make_shared<EditCircleState>(m_camera, m_sub_mgr, get_selected));
+		ChangeEditOpState(std::make_shared<EditCircleState>(m_camera, m_view, get_selected));
 	} else if (shape_type == rttr::type::get<gs::Polyline>().get_id()) {
 		ChangeEditOpState(nullptr);
-		m_proxy_op = std::make_shared<EditPolylineOP>(m_camera, m_sub_mgr, get_selected, false);
+		m_proxy_op = std::make_shared<EditPolylineOP>(m_camera, m_view, get_selected, false);
+	} else if (shape_type == rttr::type::get<gs::Polygon>().get_id()) {
+		ChangeEditOpState(nullptr);
+		m_proxy_op = std::make_shared<EditPolylineOP>(m_camera, m_view, get_selected, true);
 	}
 
-	if (shape_type != rttr::type::get<gs::Polyline>().get_id()) {
+	if (shape_type != rttr::type::get<gs::Polyline>().get_id() &&
+		shape_type != rttr::type::get<gs::Polygon>().get_id()) {
 		m_proxy_op.reset();
 	}
 }

@@ -2,13 +2,9 @@
 #include "drawing2/RenderStyle.h"
 
 #include <ee0/CameraHelper.h>
-#include <ee0/MsgHelper.h>
 
 #include <SM_Calc.h>
 #include <geoshape/Circle.h>
-#include <ns/NodeFactory.h>
-#include <node0/SceneNode.h>
-#include <node2/CompShape.h>
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
@@ -16,11 +12,10 @@
 namespace dw2
 {
 
-EditCircleState::EditCircleState(const std::shared_ptr<pt0::Camera>& camera,
-	                             const ee0::SubjectMgrPtr& sub_mgr,
+EditCircleState::EditCircleState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,
 	                             std::function<ShapeCapture::NodeRef()> get_selected)
 	: ee0::EditOpState(camera)
-	, m_sub_mgr(sub_mgr)
+	, m_view(view)
 	, m_get_selected(get_selected)
 {
 	Clear();
@@ -40,12 +35,8 @@ bool EditCircleState::OnMouseRelease(int x, int y)
 		UpdateCirclePos(pos);
 	} else if (m_first_pos.IsValid() && m_first_pos != pos) {
 		m_curr_pos = pos;
-
-		auto obj = ns::NodeFactory::Create();
 		const float r = sm::dis_pos_to_pos(m_first_pos, m_curr_pos);
-		auto shape = std::make_shared<gs::Circle>(m_first_pos, r);
-		obj->AddUniqueComp<n2::CompShape>(shape);
-		ee0::MsgHelper::InsertNode(*m_sub_mgr, obj, true);
+		m_view.Insert(std::make_shared<gs::Circle>(m_first_pos, r));
 	}
 
 	Clear();
@@ -101,6 +92,7 @@ void EditCircleState::UpdateCirclePos(const sm::vec2& pos)
 	} else {
 		circle->SetCenter(pos);
 	}
+	m_view.ShapeChanged(circle);
 }
 
 }

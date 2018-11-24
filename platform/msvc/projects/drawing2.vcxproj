@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\drawing2\CommonEditView.h" />
     <ClInclude Include="..\..\..\include\drawing2\RenderStyle.h" />
     <ClInclude Include="..\..\..\include\drawing2\DrawLineUtility.h" />
     <ClInclude Include="..\..\..\include\drawing2\EditPolylineOP.h" />
@@ -20,6 +21,7 @@
     <ClInclude Include="..\..\..\include\drawing2\EditShapeOP.h" />
     <ClInclude Include="..\..\..\include\drawing2\SelectShapeOP.h" />
     <ClInclude Include="..\..\..\include\drawing2\ShapeCapture.h" />
+    <ClInclude Include="..\..\..\include\drawing2\EditView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\DrawLineUtility.cpp" />
@@ -30,6 +32,7 @@
     <ClCompile Include="..\..\..\source\EditShapeOP.cpp" />
     <ClCompile Include="..\..\..\source\SelectShapeOP.cpp" />
     <ClCompile Include="..\..\..\source\ShapeCapture.cpp" />
+    <ClCompile Include="..\..\..\source\CommonEditView.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>3.drawing2</ProjectName>

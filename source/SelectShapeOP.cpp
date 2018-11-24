@@ -1,10 +1,8 @@
 #include "drawing2/SelectShapeOP.h"
 #include "drawing2/RenderStyle.h"
+#include "drawing2/EditView.h"
 
 #include <ee0/CameraHelper.h>
-#include <ee0/SubjectMgr.h>
-#include <ee0/MessageID.h>
-#include <ee0/MsgHelper.h>
 
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
@@ -14,10 +12,10 @@
 namespace dw2
 {
 
-SelectShapeOP::SelectShapeOP(const std::shared_ptr<pt0::Camera>& cam, const ee0::SubjectMgrPtr& sub_mgr, const ee0::SceneNodeContainer& nodes, float capture_threshold)
+SelectShapeOP::SelectShapeOP(const std::shared_ptr<pt0::Camera>& cam,
+	                         EditView& view, float capture_threshold)
 	: ee0::EditOP(cam)
-	, m_sub_mgr(sub_mgr)
-	, m_nodes(nodes)
+	, m_view(view)
 	, m_capture_threshold(capture_threshold)
 {
 }
@@ -102,15 +100,14 @@ void SelectShapeOP::SelectByPos(int x, int y)
 {
 	m_active.Reset();
 	m_hot.Reset();
-	m_sub_mgr->NotifyObservers(ee0::MSG_NODE_SELECTION_CLEAR);
+	m_view.ClearSelectionSet();
 
 	auto captured = QueryByPos(x, y);
 	// add to selection set
-	if (captured.obj && captured.shape)
-	{
-		auto nwp = n0::NodeWithPos(captured.obj, captured.obj, 0);
-		ee0::MsgHelper::InsertSelection(*m_sub_mgr, { nwp });
+	if (captured.shape) {
+		m_view.AddSelected(captured.shape);
 	}
+
 	m_active = captured;
 	m_hot    = captured;
 }
@@ -119,7 +116,7 @@ ShapeCapture::NodeRef SelectShapeOP::QueryByPos(int x, int y) const
 {
 	float cam_scale = std::dynamic_pointer_cast<pt2::OrthoCamera>(m_camera)->GetScale();
 	auto pos = ee0::CameraHelper::TransPosScreenToProject(*m_camera, x, y);
-	return ShapeCapture::Capture(m_nodes, m_capture_threshold * cam_scale, pos);
+	return ShapeCapture::Capture(m_view, m_capture_threshold * cam_scale, pos);
 }
 
 }

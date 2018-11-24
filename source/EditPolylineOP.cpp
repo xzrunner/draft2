@@ -3,29 +3,21 @@
 #include "drawing2/RenderStyle.h"
 
 #include <ee0/CameraHelper.h>
-#include <ee0/MessageID.h>
-#include <ee0/SubjectMgr.h>
-#include <ee0/MsgHelper.h>
 
 #include <SM_Calc.h>
 #include <tessellation/Painter.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
-#include <ns/NodeFactory.h>
-#include <node0/SceneNode.h>
-#include <node2/CompShape.h>
 #include <geoshape/Polyline.h>
 #include <geoshape/Polygon.h>
 
 namespace dw2
 {
 
-EditPolylineOP::EditPolylineOP(const std::shared_ptr<pt0::Camera>& cam,
-	                           const ee0::SubjectMgrPtr& sub_mgr,
-	                           std::function<ShapeCapture::NodeRef()> get_selected,
-	                           bool is_closed)
+EditPolylineOP::EditPolylineOP(const std::shared_ptr<pt0::Camera>& cam, EditView& view,
+	                           std::function<ShapeCapture::NodeRef()> get_selected, bool is_closed)
 	: ee0::EditOP(cam)
-	, m_sub_mgr(sub_mgr)
+	, m_view(view)
 	, m_get_selected(get_selected)
 	, m_is_closed(is_closed)
 {
@@ -40,29 +32,51 @@ bool EditPolylineOP::OnMouseLeftDown(int x, int y)
 
 	auto pos = ee0::CameraHelper::TransPosScreenToProject(*m_camera, x, y);
 
+	auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon>() : rttr::type::get<gs::Polyline>();
+
 	m_selected = m_get_selected();
 	// interrupt
 	if (m_selected.shape &&
-		m_selected.shape->get_type() == rttr::type::get<gs::Polyline>() &&
+		m_selected.shape->get_type() == poly_type &&
 		m_selected.type == ShapeCapture::NodeRef::Type::SHAPE)
 	{
-		auto pl = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
-		auto verts = pl->GetVertices();
-		int nearest = -1;
-		float dis = sm::dis_pos_to_polyline(pos, verts, &nearest);
-		assert(nearest >= 0 && nearest < static_cast<int>(verts.size()));
-		verts.insert(verts.begin() + nearest + 1, pos);
-		pl->SetVertices(verts);
+		if (m_is_closed)
+		{
+			auto pg = std::static_pointer_cast<gs::Polygon>(m_selected.shape);
+			auto verts = pg->GetVertices();
+
+			int nearest = -1;
+			float dis = sm::dis_pos_to_polygon(pos, verts, &nearest);
+			assert(nearest >= 0 && nearest < static_cast<int>(verts.size()));
+			verts.insert(verts.begin() + nearest + 1, pos);
+
+			pg->SetVertices(verts);
+		}
+		else
+		{
+			auto pl = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
+			auto verts = pl->GetVertices();
+
+			int nearest = -1;
+			float dis = sm::dis_pos_to_polyline(pos, verts, &nearest);
+			assert(nearest >= 0 && nearest < static_cast<int>(verts.size()));
+			verts.insert(verts.begin() + nearest + 1, pos);
+
+			pl->SetVertices(verts);
+		}
 		m_selected.type = ShapeCapture::NodeRef::Type::CTRL_NODE;
 		m_selected.pos = pos;
+		m_view.ShapeChanged(m_selected.shape);
 	}
 
 	if (m_selected.shape &&
-		m_selected.shape->get_type() == rttr::type::get<gs::Polyline>() &&
+		m_selected.shape->get_type() == poly_type &&
 		m_selected.type == ShapeCapture::NodeRef::Type::CTRL_NODE)
 	{
 		m_selected_ctrl_node = -1;
-		auto& verts = std::static_pointer_cast<gs::Polyline>(m_selected.shape)->GetVertices();
+		auto& verts = m_is_closed ?
+			std::static_pointer_cast<gs::Polygon>(m_selected.shape)->GetVertices() :
+			std::static_pointer_cast<gs::Polyline>(m_selected.shape)->GetVertices();
 		for (int i = 0, n = verts.size(); i < n; ++i) {
 			if (verts[i] == m_selected.pos) {
 				m_selected_ctrl_node = i;
@@ -76,7 +90,10 @@ bool EditPolylineOP::OnMouseLeftDown(int x, int y)
 			pos = DrawLineUtility::FixPosTo8DirStraight(m_polyline.back(), pos);
 		}
 		m_polyline.push_back(pos);
-		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+		if (m_selected.shape) {
+			m_view.ShapeChanged(m_selected.shape);
+		}
+		m_view.SetCanvasDirty();
 	}
 
 	return false;
@@ -90,19 +107,31 @@ bool EditPolylineOP::OnMouseRightDown(int x, int y)
 
 	m_selected = m_get_selected();
 	// delete selected ctrl node
+	auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon>() : rttr::type::get<gs::Polyline>();
 	if (m_selected.shape &&
-		m_selected.shape->get_type() == rttr::type::get<gs::Polyline>() &&
+		m_selected.shape->get_type() == poly_type &&
 		m_selected.type == ShapeCapture::NodeRef::Type::CTRL_NODE)
 	{
-		auto pl = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
-		auto verts = pl->GetVertices();
-		for (auto itr = verts.begin(); itr != verts.end(); ++itr) {
-			if (*itr == m_selected.pos) {
-				verts.erase(itr);
-				break;
+		auto erase_pos = [](const sm::vec2& pos, std::vector<sm::vec2>& verts) {
+			for (auto itr = verts.begin(); itr != verts.end(); ++itr) {
+				if (*itr == pos) {
+					verts.erase(itr);
+					break;
+				}
 			}
+		};
+		if (m_is_closed) {
+			auto pg = std::static_pointer_cast<gs::Polygon>(m_selected.shape);
+			auto verts = pg->GetVertices();
+			erase_pos(m_selected.pos, verts);
+			pg->SetVertices(verts);
+		} else {
+			auto pl = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
+			auto verts = pl->GetVertices();
+			erase_pos(m_selected.pos, verts);
+			pl->SetVertices(verts);
 		}
-		pl->SetVertices(verts);
+		m_view.ShapeChanged(m_selected.shape);
 	}
 	// delete last node
 	else if (!m_polyline.empty())
@@ -111,7 +140,10 @@ bool EditPolylineOP::OnMouseRightDown(int x, int y)
 		if (m_polyline.empty()) {
 			m_curr_pos.MakeInvalid();
 		}
-		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+		if (m_selected.shape) {
+			m_view.ShapeChanged(m_selected.shape);
+		}
+		m_view.SetCanvasDirty();
 	}
 
 	return false;
@@ -130,7 +162,7 @@ bool EditPolylineOP::OnMouseMove(int x, int y)
 		pos = DrawLineUtility::FixPosTo8DirStraight(m_polyline.back(), pos);
 	}
 	m_curr_pos = pos;
-	m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+	m_view.SetCanvasDirty();
 
 	return false;
 }
@@ -143,16 +175,31 @@ bool EditPolylineOP::OnMouseDrag(int x, int y)
 
 	if (m_selected_ctrl_node >= 0)
 	{
+		auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon>() : rttr::type::get<gs::Polyline>();
 		assert(m_selected.shape
-			&& m_selected.shape->get_type() == rttr::type::get<gs::Polyline>()
+			&& m_selected.shape->get_type() == poly_type
 			&& m_selected.type == ShapeCapture::NodeRef::Type::CTRL_NODE);
-		auto poly = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
-		auto verts = poly->GetVertices();
-		assert(m_selected_ctrl_node < static_cast<int>(verts.size()));
 		auto pos = ee0::CameraHelper::TransPosScreenToProject(*m_camera, x, y);
-		verts[m_selected_ctrl_node] = pos;
-		poly->SetVertices(verts);
-		m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
+		if (m_is_closed)
+		{
+			auto poly = std::static_pointer_cast<gs::Polygon>(m_selected.shape);
+			auto verts = poly->GetVertices();
+			assert(m_selected_ctrl_node < static_cast<int>(verts.size()));
+			verts[m_selected_ctrl_node] = pos;
+			poly->SetVertices(verts);
+		}
+		else
+		{
+			auto poly = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
+			auto verts = poly->GetVertices();
+			assert(m_selected_ctrl_node < static_cast<int>(verts.size()));
+			verts[m_selected_ctrl_node] = pos;
+			poly->SetVertices(verts);
+		}
+		if (m_selected.shape) {
+			m_view.ShapeChanged(m_selected.shape);
+		}
+		m_view.SetCanvasDirty();
 	}
 
 	return false;
@@ -164,15 +211,13 @@ bool EditPolylineOP::OnMouseLeftDClick(int x, int y)
 		return true;
 	}
 
-	auto obj = ns::NodeFactory::Create();
 	std::shared_ptr<gs::Shape> shape = nullptr;
 	if (m_is_closed) {
 		shape = std::make_shared<gs::Polygon>(m_polyline);
 	} else {
 		shape = std::make_shared<gs::Polyline>(m_polyline);
 	}
-	obj->AddUniqueComp<n2::CompShape>(shape);
-	ee0::MsgHelper::InsertNode(*m_sub_mgr, obj, false);
+	m_view.Insert(shape);
 	m_polyline.clear();
 	m_curr_pos.MakeInvalid();
 

@@ -16,6 +16,9 @@
     <Filter Include="editop\modify\state">
       <UniqueIdentifier>{3c3bacb1-ed78-4a8b-a419-79b0140caf24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{1775ab35-d4b2-4a33-90be-379915b7c569}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\drawing2\EditPointState.h">
@@ -45,6 +48,12 @@
     <ClInclude Include="..\..\..\include\drawing2\RenderStyle.h">
       <Filter>editop</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\CommonEditView.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\EditView.h">
+      <Filter>utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\EditPointState.cpp">
@@ -70,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\DrawLineUtility.cpp">
       <Filter>editop\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\CommonEditView.cpp">
+      <Filter>utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

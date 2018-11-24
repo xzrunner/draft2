@@ -2,13 +2,9 @@
 #include "drawing2/RenderStyle.h"
 
 #include <ee0/CameraHelper.h>
-#include <ee0/MsgHelper.h>
 
 #include <SM_Calc.h>
 #include <geoshape/Rect.h>
-#include <ns/NodeFactory.h>
-#include <node0/SceneNode.h>
-#include <node2/CompShape.h>
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
@@ -16,11 +12,10 @@
 namespace dw2
 {
 
-EditRectState::EditRectState(const std::shared_ptr<pt0::Camera>& camera,
-	                         const ee0::SubjectMgrPtr& sub_mgr,
+EditRectState::EditRectState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,
 	                         std::function<ShapeCapture::NodeRef()> get_selected)
 	: ee0::EditOpState(camera)
-	, m_sub_mgr(sub_mgr)
+	, m_view(view)
 	, m_get_selected(get_selected)
 {
 	Clear();
@@ -71,11 +66,7 @@ bool EditRectState::OnMouseRelease(int x, int y)
 		UpdateRectPos(pos);
 	} else if (m_first_pos.IsValid() && m_first_pos != pos) {
 		m_curr_pos = pos;
-
-		auto obj = ns::NodeFactory::Create();
-		auto shape = std::make_shared<gs::Rect>(sm::rect(m_first_pos, m_curr_pos));
-		obj->AddUniqueComp<n2::CompShape>(shape);
-		ee0::MsgHelper::InsertNode(*m_sub_mgr, obj, true);
+		m_view.Insert(std::make_shared<gs::Rect>(sm::rect(m_first_pos, m_curr_pos)));
 	}
 
 	Clear();
@@ -151,6 +142,7 @@ void EditRectState::UpdateRectPos(const sm::vec2& pos)
 				break;
 			}
 			rect->SetRect(new_r);
+			m_view.ShapeChanged(rect);
 		}
 	}
 	else
@@ -159,6 +151,7 @@ void EditRectState::UpdateRectPos(const sm::vec2& pos)
 		auto r = rect->GetRect();
 		r.Translate(pos - r.Center());
 		rect->SetRect(r);
+		m_view.ShapeChanged(rect);
 	}
 }
 

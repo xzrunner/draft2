@@ -3,7 +3,6 @@
 #include "drawing2/ShapeCapture.h"
 
 #include <ee0/EditOpState.h>
-#include <ee0/typedef.h>
 
 #include <SM_Vector.h>
 
@@ -14,10 +13,12 @@ namespace gs { class Shape; }
 namespace dw2
 {
 
+class EditView;
+
 class EditCircleState : public ee0::EditOpState
 {
 public:
-	EditCircleState(const std::shared_ptr<pt0::Camera>& camera, const ee0::SubjectMgrPtr& sub_mgr,
+	EditCircleState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,
 		std::function<ShapeCapture::NodeRef()> get_selected);
 
 	virtual bool OnMousePress(int x, int y) override;
@@ -31,7 +32,7 @@ private:
 	void UpdateCirclePos(const sm::vec2& pos);
 
 private:
-	ee0::SubjectMgrPtr m_sub_mgr;
+	EditView& m_view;
 
 	std::function<ShapeCapture::NodeRef()> m_get_selected;
 
