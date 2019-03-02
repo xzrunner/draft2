@@ -50,7 +50,7 @@ void CommonEditView::Delete(const std::shared_ptr<gs::Shape>& shape)
 
 void CommonEditView::Clear()
 {
-	m_sub_mgr->NotifyObservers(ee0::MSG_CLEAR_SCENE_NODE);
+	m_sub_mgr->NotifyObservers(ee0::MSG_SCENE_NODE_CLEAR);
 }
 
 void CommonEditView::AddSelected(const std::shared_ptr<gs::Shape>& shape)
