@@ -33,7 +33,7 @@ void CommonEditView::Traverse(std::function<bool(const std::shared_ptr<gs::Shape
 
 void CommonEditView::Insert(const std::shared_ptr<gs::Shape>& shape)
 {
-	auto obj = ns::NodeFactory::Create();
+	auto obj = ns::NodeFactory::Create2D();
 	obj->AddUniqueComp<n2::CompShape>(shape);
 	ee0::MsgHelper::InsertNode(*m_sub_mgr, obj, true);
 }
