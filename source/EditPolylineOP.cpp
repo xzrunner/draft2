@@ -8,8 +8,8 @@
 #include <tessellation/Painter.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
-#include <geoshape/Polyline.h>
-#include <geoshape/Polygon.h>
+#include <geoshape/Polyline2D.h>
+#include <geoshape/Polygon2D.h>
 
 namespace dw2
 {
@@ -32,7 +32,7 @@ bool EditPolylineOP::OnMouseLeftDown(int x, int y)
 
 	auto pos = ee0::CameraHelper::TransPosScreenToProject(*m_camera, x, y);
 
-	auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon>() : rttr::type::get<gs::Polyline>();
+	auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon2D>() : rttr::type::get<gs::Polyline2D>();
 
 	m_selected = m_get_selected();
 	// interrupt
@@ -42,7 +42,7 @@ bool EditPolylineOP::OnMouseLeftDown(int x, int y)
 	{
 		if (m_is_closed)
 		{
-			auto pg = std::static_pointer_cast<gs::Polygon>(m_selected.shape);
+			auto pg = std::static_pointer_cast<gs::Polygon2D>(m_selected.shape);
 			auto verts = pg->GetVertices();
 
 			int nearest = -1;
@@ -54,7 +54,7 @@ bool EditPolylineOP::OnMouseLeftDown(int x, int y)
 		}
 		else
 		{
-			auto pl = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
+			auto pl = std::static_pointer_cast<gs::Polyline2D>(m_selected.shape);
 			auto verts = pl->GetVertices();
 
 			int nearest = -1;
@@ -75,8 +75,8 @@ bool EditPolylineOP::OnMouseLeftDown(int x, int y)
 	{
 		m_selected_ctrl_node = -1;
 		auto& verts = m_is_closed ?
-			std::static_pointer_cast<gs::Polygon>(m_selected.shape)->GetVertices() :
-			std::static_pointer_cast<gs::Polyline>(m_selected.shape)->GetVertices();
+			std::static_pointer_cast<gs::Polygon2D>(m_selected.shape)->GetVertices() :
+			std::static_pointer_cast<gs::Polyline2D>(m_selected.shape)->GetVertices();
 		for (int i = 0, n = verts.size(); i < n; ++i) {
 			if (verts[i] == m_selected.pos) {
 				m_selected_ctrl_node = i;
@@ -107,7 +107,7 @@ bool EditPolylineOP::OnMouseRightDown(int x, int y)
 
 	m_selected = m_get_selected();
 	// delete selected ctrl node
-	auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon>() : rttr::type::get<gs::Polyline>();
+	auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon2D>() : rttr::type::get<gs::Polyline2D>();
 	if (m_selected.shape &&
 		m_selected.shape->get_type() == poly_type &&
 		m_selected.type == ShapeCapture::NodeRef::Type::CTRL_NODE)
@@ -121,12 +121,12 @@ bool EditPolylineOP::OnMouseRightDown(int x, int y)
 			}
 		};
 		if (m_is_closed) {
-			auto pg = std::static_pointer_cast<gs::Polygon>(m_selected.shape);
+			auto pg = std::static_pointer_cast<gs::Polygon2D>(m_selected.shape);
 			auto verts = pg->GetVertices();
 			erase_pos(m_selected.pos, verts);
 			pg->SetVertices(verts);
 		} else {
-			auto pl = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
+			auto pl = std::static_pointer_cast<gs::Polyline2D>(m_selected.shape);
 			auto verts = pl->GetVertices();
 			erase_pos(m_selected.pos, verts);
 			pl->SetVertices(verts);
@@ -175,14 +175,14 @@ bool EditPolylineOP::OnMouseDrag(int x, int y)
 
 	if (m_selected_ctrl_node >= 0)
 	{
-		auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon>() : rttr::type::get<gs::Polyline>();
+		auto poly_type = m_is_closed ? rttr::type::get<gs::Polygon2D>() : rttr::type::get<gs::Polyline2D>();
 		assert(m_selected.shape
 			&& m_selected.shape->get_type() == poly_type
 			&& m_selected.type == ShapeCapture::NodeRef::Type::CTRL_NODE);
 		auto pos = ee0::CameraHelper::TransPosScreenToProject(*m_camera, x, y);
 		if (m_is_closed)
 		{
-			auto poly = std::static_pointer_cast<gs::Polygon>(m_selected.shape);
+			auto poly = std::static_pointer_cast<gs::Polygon2D>(m_selected.shape);
 			auto verts = poly->GetVertices();
 			assert(m_selected_ctrl_node < static_cast<int>(verts.size()));
 			verts[m_selected_ctrl_node] = pos;
@@ -190,7 +190,7 @@ bool EditPolylineOP::OnMouseDrag(int x, int y)
 		}
 		else
 		{
-			auto poly = std::static_pointer_cast<gs::Polyline>(m_selected.shape);
+			auto poly = std::static_pointer_cast<gs::Polyline2D>(m_selected.shape);
 			auto verts = poly->GetVertices();
 			assert(m_selected_ctrl_node < static_cast<int>(verts.size()));
 			verts[m_selected_ctrl_node] = pos;
@@ -213,9 +213,9 @@ bool EditPolylineOP::OnMouseLeftDClick(int x, int y)
 
 	std::shared_ptr<gs::Shape2D> shape = nullptr;
 	if (m_is_closed) {
-		shape = std::make_shared<gs::Polygon>(m_polyline);
+		shape = std::make_shared<gs::Polygon2D>(m_polyline);
 	} else {
-		shape = std::make_shared<gs::Polyline>(m_polyline);
+		shape = std::make_shared<gs::Polyline2D>(m_polyline);
 	}
 	m_view.Insert(shape);
 	m_polyline.clear();

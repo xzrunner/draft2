@@ -7,7 +7,7 @@
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
-#include <geoshape/Polyline.h>
+#include <geoshape/Polyline2D.h>
 
 namespace dw2
 {
@@ -67,9 +67,9 @@ bool SelectShapeOP::OnDraw() const
 	float cam_scale = std::dynamic_pointer_cast<pt2::OrthoCamera>(m_camera)->GetScale();
 	if (m_active.shape) {
 		pt2::RenderSystem::DrawShape(pt, *m_active.shape, COL_ACTIVE_SHAPE, cam_scale);
-		if (m_active.shape->get_type() == rttr::type::get<gs::Polyline>()) {
+		if (m_active.shape->get_type() == rttr::type::get<gs::Polyline2D>()) {
 			const float radius = NODE_RADIUS * cam_scale;
-			auto& verts = std::static_pointer_cast<gs::Polyline>(m_active.shape)->GetVertices();
+			auto& verts = std::static_pointer_cast<gs::Polyline2D>(m_active.shape)->GetVertices();
 			for (auto& v : verts) {
 				pt.AddCircleFilled(v, radius, COL_ACTIVE_NODE);
 			}

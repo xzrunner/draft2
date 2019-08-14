@@ -8,8 +8,8 @@
 #include <geoshape/Point2D.h>
 #include <geoshape/Rect.h>
 #include <geoshape/Circle.h>
-#include <geoshape/Polyline.h>
-#include <geoshape/Polygon.h>
+#include <geoshape/Polyline2D.h>
+#include <geoshape/Polygon2D.h>
 
 #include <wx/defs.h>
 
@@ -193,16 +193,16 @@ void EditShapeOP::ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape
 		ChangeEditOpState(std::make_shared<EditRectState>(m_camera, m_view, get_selected));
 	} else if (shape_type == rttr::type::get<gs::Circle>().get_id()) {
 		ChangeEditOpState(std::make_shared<EditCircleState>(m_camera, m_view, get_selected));
-	} else if (shape_type == rttr::type::get<gs::Polyline>().get_id()) {
+	} else if (shape_type == rttr::type::get<gs::Polyline2D>().get_id()) {
 		ChangeEditOpState(nullptr);
 		m_proxy_op = std::make_shared<EditPolylineOP>(m_camera, m_view, get_selected, false);
-	} else if (shape_type == rttr::type::get<gs::Polygon>().get_id()) {
+	} else if (shape_type == rttr::type::get<gs::Polygon2D>().get_id()) {
 		ChangeEditOpState(nullptr);
 		m_proxy_op = std::make_shared<EditPolylineOP>(m_camera, m_view, get_selected, true);
 	}
 
-	if (shape_type != rttr::type::get<gs::Polyline>().get_id() &&
-		shape_type != rttr::type::get<gs::Polygon>().get_id()) {
+	if (shape_type != rttr::type::get<gs::Polyline2D>().get_id() &&
+		shape_type != rttr::type::get<gs::Polygon2D>().get_id()) {
 		m_proxy_op.reset();
 	}
 }

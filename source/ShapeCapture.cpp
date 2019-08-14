@@ -9,8 +9,8 @@
 #include <geoshape/Point2D.h>
 #include <geoshape/Rect.h>
 #include <geoshape/Circle.h>
-#include <geoshape/Polyline.h>
-#include <geoshape/Polygon.h>
+#include <geoshape/Polyline2D.h>
+#include <geoshape/Polygon2D.h>
 
 namespace dw2
 {
@@ -31,11 +31,11 @@ ShapeCapture::Capture(const EditView& view, float threshold, const sm::vec2& pos
 			cap = CaptureRect(shape, threshold, pos);
 		} else if (type == rttr::type::get<gs::Circle>()) {
 			cap = CaptureCircle(shape, threshold, pos);
-		} else if (type == rttr::type::get<gs::Polyline>()) {
-			auto& vs = std::static_pointer_cast<gs::Polyline>(shape)->GetVertices();
+		} else if (type == rttr::type::get<gs::Polyline2D>()) {
+			auto& vs = std::static_pointer_cast<gs::Polyline2D>(shape)->GetVertices();
 			cap = CapturePoly(shape, vs, threshold, pos);
-		} else if (type == rttr::type::get<gs::Polygon>()) {
-			auto& vs = std::static_pointer_cast<gs::Polygon>(shape)->GetVertices();
+		} else if (type == rttr::type::get<gs::Polygon2D>()) {
+			auto& vs = std::static_pointer_cast<gs::Polygon2D>(shape)->GetVertices();
 			cap = CapturePoly(shape, vs, threshold, pos);
 		}
 
