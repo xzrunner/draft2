@@ -20,7 +20,7 @@ ShapeCapture::Capture(const EditView& view, float threshold, const sm::vec2& pos
 {
 	ShapeCapture::NodeRef ret;
 
-	view.Traverse([&](const std::shared_ptr<gs::Shape>& shape)->bool
+	view.Traverse([&](const std::shared_ptr<gs::Shape2D>& shape)->bool
 	{
 		auto type = shape->get_type();
 
@@ -61,7 +61,7 @@ ShapeCapture::Capture(const EditView& view, float threshold, const sm::vec2& pos
 }
 
 ShapeCapture::NodeRef
-ShapeCapture::CapturePoint(const std::shared_ptr<gs::Shape>& shape, float threshold, const sm::vec2& pos)
+ShapeCapture::CapturePoint(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos)
 {
 	ShapeCapture::NodeRef ret;
 
@@ -77,7 +77,7 @@ ShapeCapture::CapturePoint(const std::shared_ptr<gs::Shape>& shape, float thresh
 }
 
 ShapeCapture::NodeRef
-ShapeCapture::CaptureRect(const std::shared_ptr<gs::Shape>& shape, float threshold, const sm::vec2& pos)
+ShapeCapture::CaptureRect(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos)
 {
 	ShapeCapture::NodeRef ret;
 
@@ -108,7 +108,7 @@ ShapeCapture::CaptureRect(const std::shared_ptr<gs::Shape>& shape, float thresho
 }
 
 ShapeCapture::NodeRef
-ShapeCapture::CaptureCircle(const std::shared_ptr<gs::Shape>& shape, float threshold, const sm::vec2& pos)
+ShapeCapture::CaptureCircle(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos)
 {
 	NodeRef ret;
 
@@ -132,7 +132,7 @@ ShapeCapture::CaptureCircle(const std::shared_ptr<gs::Shape>& shape, float thres
 }
 
 ShapeCapture::NodeRef
-ShapeCapture::CapturePoly(const std::shared_ptr<gs::Shape>& shape, const std::vector<sm::vec2>& verts, float threshold, const sm::vec2& pos)
+ShapeCapture::CapturePoly(const std::shared_ptr<gs::Shape2D>& shape, const std::vector<sm::vec2>& verts, float threshold, const sm::vec2& pos)
 {
 	dw2::ShapeCapture::NodeRef ret;
 

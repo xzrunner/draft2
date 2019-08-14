@@ -4,7 +4,7 @@
 
 #include "drawing2/SelectShapeOP.h"
 
-namespace gs { class Shape; }
+namespace gs { class Shape2D; }
 
 namespace dw2
 {
@@ -28,7 +28,7 @@ public:
 	virtual bool Clear() override;
 
 	uint32_t GetEditShapeType() const { return m_shape_type; }
-	void ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape> selected = nullptr);
+	void ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape2D> selected = nullptr);
 
 private:
 	EditView& m_view;

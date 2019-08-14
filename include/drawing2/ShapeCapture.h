@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-namespace gs { class Shape; }
+namespace gs { class Shape2D; }
 
 namespace dw2
 {
@@ -27,7 +27,7 @@ public:
 			OUTSIDE,
 		} type = Type::NONE;
 
-		std::shared_ptr<gs::Shape> shape = nullptr;
+		std::shared_ptr<gs::Shape2D> shape = nullptr;
 		sm::vec2 pos;
 
 		NodeRef()
@@ -55,10 +55,10 @@ public:
 	static NodeRef Capture(const EditView& view, float threshold, const sm::vec2& pos);
 
 private:
-	static NodeRef CapturePoint(const std::shared_ptr<gs::Shape>& shape, float threshold, const sm::vec2& pos);
-	static NodeRef CaptureRect(const std::shared_ptr<gs::Shape>& shape, float threshold, const sm::vec2& pos);
-	static NodeRef CaptureCircle(const std::shared_ptr<gs::Shape>& shape, float threshold, const sm::vec2& pos);
-	static NodeRef CapturePoly(const std::shared_ptr<gs::Shape>& shape, const std::vector<sm::vec2>& verts, float threshold, const sm::vec2& pos);
+	static NodeRef CapturePoint(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos);
+	static NodeRef CaptureRect(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos);
+	static NodeRef CaptureCircle(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos);
+	static NodeRef CapturePoly(const std::shared_ptr<gs::Shape2D>& shape, const std::vector<sm::vec2>& verts, float threshold, const sm::vec2& pos);
 
 }; // ShapeCapture
 

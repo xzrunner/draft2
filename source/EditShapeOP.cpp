@@ -178,7 +178,7 @@ bool EditShapeOP::Clear()
 	return false;
 }
 
-void EditShapeOP::ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape> selected)
+void EditShapeOP::ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape2D> selected)
 {
 	if (shape_type == m_shape_type) {
 		return;

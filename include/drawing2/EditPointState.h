@@ -6,7 +6,7 @@
 
 #include <functional>
 
-namespace gs { class Shape; }
+namespace gs { class Shape2D; }
 
 namespace dw2
 {

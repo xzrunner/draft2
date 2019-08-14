@@ -211,7 +211,7 @@ bool EditPolylineOP::OnMouseLeftDClick(int x, int y)
 		return true;
 	}
 
-	std::shared_ptr<gs::Shape> shape = nullptr;
+	std::shared_ptr<gs::Shape2D> shape = nullptr;
 	if (m_is_closed) {
 		shape = std::make_shared<gs::Polygon>(m_polyline);
 	} else {

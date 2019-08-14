@@ -18,7 +18,7 @@ CommonEditView::CommonEditView(const ee0::SceneNodeContainer& nodes, const ee0::
 {
 }
 
-void CommonEditView::Traverse(std::function<bool(const std::shared_ptr<gs::Shape>& shape)> func) const
+void CommonEditView::Traverse(std::function<bool(const std::shared_ptr<gs::Shape2D>& shape)> func) const
 {
 	m_nodes.Traverse([&](const ee0::GameObj& obj)->bool
 	{
@@ -31,14 +31,14 @@ void CommonEditView::Traverse(std::function<bool(const std::shared_ptr<gs::Shape
 	});
 }
 
-void CommonEditView::Insert(const std::shared_ptr<gs::Shape>& shape)
+void CommonEditView::Insert(const std::shared_ptr<gs::Shape2D>& shape)
 {
 	auto obj = ns::NodeFactory::Create2D();
 	obj->AddUniqueComp<n2::CompShape>(shape);
 	ee0::MsgHelper::InsertNode(*m_sub_mgr, obj, true);
 }
 
-void CommonEditView::Delete(const std::shared_ptr<gs::Shape>& shape)
+void CommonEditView::Delete(const std::shared_ptr<gs::Shape2D>& shape)
 {
 	n0::SceneNodePtr node = QueryNodeByShape(shape);
 	if (node)
@@ -53,7 +53,7 @@ void CommonEditView::Clear()
 	m_sub_mgr->NotifyObservers(ee0::MSG_SCENE_NODE_CLEAR);
 }
 
-void CommonEditView::AddSelected(const std::shared_ptr<gs::Shape>& shape)
+void CommonEditView::AddSelected(const std::shared_ptr<gs::Shape2D>& shape)
 {
 	n0::SceneNodePtr node = QueryNodeByShape(shape);
 	if (node)
@@ -73,7 +73,7 @@ void CommonEditView::SetCanvasDirty()
 	m_sub_mgr->NotifyObservers(ee0::MSG_SET_CANVAS_DIRTY);
 }
 
-n0::SceneNodePtr CommonEditView::QueryNodeByShape(const std::shared_ptr<gs::Shape>& shape) const
+n0::SceneNodePtr CommonEditView::QueryNodeByShape(const std::shared_ptr<gs::Shape2D>& shape) const
 {
 	n0::SceneNodePtr node = nullptr;
 	m_nodes.Traverse([&](const ee0::GameObj& obj)->bool
@@ -93,7 +93,7 @@ n0::SceneNodePtr CommonEditView::QueryNodeByShape(const std::shared_ptr<gs::Shap
 	return node;
 }
 
-void CommonEditView::ShapeChanged(const std::shared_ptr<gs::Shape>& shape)
+void CommonEditView::ShapeChanged(const std::shared_ptr<gs::Shape2D>& shape)
 {
 }
 
