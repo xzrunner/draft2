@@ -54,6 +54,9 @@
     <ClInclude Include="..\..\..\include\drawing2\EditView.h">
       <Filter>utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\drawing2\EditLineState.h">
+      <Filter>editop\modify\state</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\EditPointState.cpp">
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\CommonEditView.cpp">
       <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\EditLineState.cpp">
+      <Filter>editop\modify\state</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

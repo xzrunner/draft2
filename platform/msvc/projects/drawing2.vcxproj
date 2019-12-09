@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\drawing2\CommonEditView.h" />
+    <ClInclude Include="..\..\..\include\drawing2\EditLineState.h" />
     <ClInclude Include="..\..\..\include\drawing2\RenderStyle.h" />
     <ClInclude Include="..\..\..\include\drawing2\DrawLineUtility.h" />
     <ClInclude Include="..\..\..\include\drawing2\EditPolylineOP.h" />
@@ -25,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\DrawLineUtility.cpp" />
+    <ClCompile Include="..\..\..\source\EditLineState.cpp" />
     <ClCompile Include="..\..\..\source\EditPolylineOP.cpp" />
     <ClCompile Include="..\..\..\source\EditCircleState.cpp" />
     <ClCompile Include="..\..\..\source\EditPointState.cpp" />

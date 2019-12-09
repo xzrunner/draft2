@@ -7,6 +7,7 @@
 #include <tessellation/Painter.h>
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
+#include <geoshape/Line2D.h>
 #include <geoshape/Polyline2D.h>
 
 namespace dw2
@@ -65,10 +66,20 @@ bool SelectShapeOP::OnDraw() const
 	tess::Painter pt;
 
 	float cam_scale = std::dynamic_pointer_cast<pt2::OrthoCamera>(m_camera)->GetScale();
-	if (m_active.shape) {
+	if (m_active.shape)
+    {
 		pt2::RenderSystem::DrawShape(pt, *m_active.shape, COL_ACTIVE_SHAPE, cam_scale);
-		if (m_active.shape->get_type() == rttr::type::get<gs::Polyline2D>()) {
-			const float radius = NODE_RADIUS * cam_scale;
+
+        const float radius = NODE_RADIUS * cam_scale;
+        auto type = m_active.shape->get_type();
+        if (type == rttr::type::get<gs::Line2D>())
+        {
+            auto line = std::static_pointer_cast<gs::Line2D>(m_active.shape);
+            pt.AddCircleFilled(line->GetStart(), radius, COL_ACTIVE_NODE);
+            pt.AddCircleFilled(line->GetEnd(),   radius, COL_ACTIVE_NODE);
+        }
+		else if (type == rttr::type::get<gs::Polyline2D>())
+        {
 			auto& verts = std::static_pointer_cast<gs::Polyline2D>(m_active.shape)->GetVertices();
 			for (auto& v : verts) {
 				pt.AddCircleFilled(v, radius, COL_ACTIVE_NODE);

@@ -7,6 +7,7 @@
 #include <SM_Calc.h>
 
 #include <geoshape/Point2D.h>
+#include <geoshape/Line2D.h>
 #include <geoshape/Rect.h>
 #include <geoshape/Circle.h>
 #include <geoshape/Polyline2D.h>
@@ -25,8 +26,10 @@ ShapeCapture::Capture(const EditView& view, float threshold, const sm::vec2& pos
 		auto type = shape->get_type();
 
 		ShapeCapture::NodeRef cap;
-		if (type == rttr::type::get<gs::Point2D>()) {
-			cap = CapturePoint(shape, threshold, pos);
+        if (type == rttr::type::get<gs::Point2D>()) {
+            cap = CapturePoint(shape, threshold, pos);
+        } else if (type == rttr::type::get<gs::Line2D>()) {
+            cap = CaptureLine(shape, threshold, pos);
 		} else if (type == rttr::type::get<gs::Rect>()) {
 			cap = CaptureRect(shape, threshold, pos);
 		} else if (type == rttr::type::get<gs::Circle>()) {
@@ -72,6 +75,34 @@ ShapeCapture::CapturePoint(const std::shared_ptr<gs::Shape2D>& shape, float thre
 		ret.shape = shape;
 		ret.pos = point;
 	}
+
+	return ret;
+}
+
+ShapeCapture::NodeRef 
+ShapeCapture::CaptureLine(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos)
+{
+    ShapeCapture::NodeRef ret;
+
+    auto& line = std::static_pointer_cast<gs::Line2D>(shape);
+    if (sm::dis_pos_to_pos(line->GetStart(), pos) < threshold)
+    {
+        ret.type = NodeRef::Type::CTRL_NODE;
+        ret.shape = shape;
+        ret.pos = line->GetStart();
+    }
+    else if (sm::dis_pos_to_pos(line->GetEnd(), pos) < threshold)
+    {
+        ret.type = NodeRef::Type::CTRL_NODE;
+        ret.shape = shape;
+        ret.pos = line->GetEnd();
+    }
+    else if (sm::dis_pos_to_seg(pos, line->GetStart(), line->GetEnd()) < threshold)
+    {
+        ret.type = NodeRef::Type::SHAPE;
+        ret.shape = shape;
+        ret.pos = (line->GetStart() + line->GetEnd()) * 0.5f;
+    }
 
 	return ret;
 }

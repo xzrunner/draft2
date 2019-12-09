@@ -56,6 +56,7 @@ public:
 
 private:
 	static NodeRef CapturePoint(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos);
+    static NodeRef CaptureLine(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos);
 	static NodeRef CaptureRect(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos);
 	static NodeRef CaptureCircle(const std::shared_ptr<gs::Shape2D>& shape, float threshold, const sm::vec2& pos);
 	static NodeRef CapturePoly(const std::shared_ptr<gs::Shape2D>& shape, const std::vector<sm::vec2>& verts, float threshold, const sm::vec2& pos);
