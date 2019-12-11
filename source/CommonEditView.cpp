@@ -1,4 +1,4 @@
-#include "drawing2/CommonEditView.h"
+#include "draft2/CommonEditView.h"
 
 #include <ee0/SceneNodeContainer.h>
 #include <ee0/SubjectMgr.h>
@@ -9,7 +9,7 @@
 #include <node2/CompShape.h>
 #include <ns/NodeFactory.h>
 
-namespace dw2
+namespace draft2
 {
 
 CommonEditView::CommonEditView(const ee0::SceneNodeContainer& nodes, const ee0::SubjectMgrPtr& sub_mgr)

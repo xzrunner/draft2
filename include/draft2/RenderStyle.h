@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace dw2
+namespace draft2
 {
 
 static const uint32_t COL_ACTIVE_SHAPE = 0xff66ff66;

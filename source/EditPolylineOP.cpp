@@ -1,6 +1,6 @@
-#include "drawing2/EditPolylineOP.h"
-#include "drawing2/DrawLineUtility.h"
-#include "drawing2/RenderStyle.h"
+#include "draft2/EditPolylineOP.h"
+#include "draft2/DrawLineUtility.h"
+#include "draft2/RenderStyle.h"
 
 #include <ee0/CameraHelper.h>
 
@@ -11,7 +11,7 @@
 #include <geoshape/Polyline2D.h>
 #include <geoshape/Polygon2D.h>
 
-namespace dw2
+namespace draft2
 {
 
 EditPolylineOP::EditPolylineOP(const std::shared_ptr<pt0::Camera>& cam, EditView& view,

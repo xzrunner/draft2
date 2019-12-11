@@ -2,11 +2,11 @@
 
 #include <ee0/typedef.h>
 
-#include "drawing2/SelectShapeOP.h"
+#include "draft2/SelectShapeOP.h"
 
 namespace gs { class Shape2D; }
 
-namespace dw2
+namespace draft2
 {
 
 class EditShapeOP : public SelectShapeOP

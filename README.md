@@ -1,3 +1,3 @@
-# drawing2
+# draft2
 
-Drawing 2d shapes.
+Draw simple 2D objects.

@@ -21,40 +21,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\drawing2\EditPointState.h">
+    <ClInclude Include="..\..\..\include\draft2\EditPointState.h">
       <Filter>editop\modify\state</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\SelectShapeOP.h">
+    <ClInclude Include="..\..\..\include\draft2\SelectShapeOP.h">
       <Filter>editop\select</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\EditShapeOP.h">
+    <ClInclude Include="..\..\..\include\draft2\EditShapeOP.h">
       <Filter>editop\modify</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\ShapeCapture.h">
+    <ClInclude Include="..\..\..\include\draft2\ShapeCapture.h">
       <Filter>editop\utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\EditRectState.h">
+    <ClInclude Include="..\..\..\include\draft2\EditRectState.h">
       <Filter>editop\modify\state</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\EditCircleState.h">
+    <ClInclude Include="..\..\..\include\draft2\EditCircleState.h">
       <Filter>editop\modify\state</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\EditPolylineOP.h">
+    <ClInclude Include="..\..\..\include\draft2\EditPolylineOP.h">
       <Filter>editop\modify</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\DrawLineUtility.h">
+    <ClInclude Include="..\..\..\include\draft2\DrawLineUtility.h">
       <Filter>editop\utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\RenderStyle.h">
+    <ClInclude Include="..\..\..\include\draft2\RenderStyle.h">
       <Filter>editop</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\CommonEditView.h">
+    <ClInclude Include="..\..\..\include\draft2\CommonEditView.h">
       <Filter>utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\EditView.h">
+    <ClInclude Include="..\..\..\include\draft2\EditView.h">
       <Filter>utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\drawing2\EditLineState.h">
+    <ClInclude Include="..\..\..\include\draft2\EditLineState.h">
       <Filter>editop\modify\state</Filter>
     </ClInclude>
   </ItemGroup>

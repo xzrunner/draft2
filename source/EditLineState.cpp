@@ -1,5 +1,5 @@
-#include "drawing2/EditLineState.h"
-#include "drawing2/RenderStyle.h"
+#include "draft2/EditLineState.h"
+#include "draft2/RenderStyle.h"
 
 #include <ee0/CameraHelper.h>
 
@@ -9,7 +9,7 @@
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
-namespace dw2
+namespace draft2
 {
 
 EditLineState::EditLineState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,

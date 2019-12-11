@@ -1,4 +1,4 @@
-#include "drawing2/ShapeCapture.h"
+#include "draft2/ShapeCapture.h"
 
 #include <ee0/SceneNodeContainer.h>
 
@@ -13,7 +13,7 @@
 #include <geoshape/Polyline2D.h>
 #include <geoshape/Polygon2D.h>
 
-namespace dw2
+namespace draft2
 {
 
 ShapeCapture::NodeRef
@@ -165,7 +165,7 @@ ShapeCapture::CaptureCircle(const std::shared_ptr<gs::Shape2D>& shape, float thr
 ShapeCapture::NodeRef
 ShapeCapture::CapturePoly(const std::shared_ptr<gs::Shape2D>& shape, const std::vector<sm::vec2>& verts, float threshold, const sm::vec2& pos)
 {
-	dw2::ShapeCapture::NodeRef ret;
+	draft2::ShapeCapture::NodeRef ret;
 
 	if (verts.empty()) {
 		return ret;
@@ -176,7 +176,7 @@ ShapeCapture::CapturePoly(const std::shared_ptr<gs::Shape2D>& shape, const std::
 	{
 		if (sm::dis_pos_to_pos(v, pos) < threshold)
 		{
-			ret.type = dw2::ShapeCapture::NodeRef::Type::CTRL_NODE;
+			ret.type = draft2::ShapeCapture::NodeRef::Type::CTRL_NODE;
 			ret.shape = shape;
 			ret.pos = v;
 			return ret;
@@ -187,7 +187,7 @@ ShapeCapture::CapturePoly(const std::shared_ptr<gs::Shape2D>& shape, const std::
 	center /= static_cast<float>(verts.size());
 	if (sm::dis_pos_to_pos(center, pos) < threshold)
 	{
-		ret.type = dw2::ShapeCapture::NodeRef::Type::SHAPE;
+		ret.type = draft2::ShapeCapture::NodeRef::Type::SHAPE;
 		ret.shape = shape;
 		ret.pos = center;
 	}

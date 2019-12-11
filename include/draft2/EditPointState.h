@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drawing2/ShapeCapture.h"
+#include "draft2/ShapeCapture.h"
 
 #include <ee0/EditOpState.h>
 
@@ -8,7 +8,7 @@
 
 namespace gs { class Shape2D; }
 
-namespace dw2
+namespace draft2
 {
 
 class EditView;

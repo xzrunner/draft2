@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drawing2/ShapeCapture.h"
+#include "draft2/ShapeCapture.h"
 
 #include <ee0/EditOpState.h>
 
@@ -10,15 +10,15 @@
 
 namespace gs { class Shape2D; }
 
-namespace dw2
+namespace draft2
 {
 
 class EditView;
 
-class EditCircleState : public ee0::EditOpState
+class EditRectState : public ee0::EditOpState
 {
 public:
-	EditCircleState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,
+	EditRectState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,
 		std::function<ShapeCapture::NodeRef()> get_selected);
 
 	virtual bool OnMousePress(int x, int y) override;
@@ -29,7 +29,17 @@ public:
 	virtual bool Clear() override;
 
 private:
-	void UpdateCirclePos(const sm::vec2& pos);
+	void UpdateRectPos(const sm::vec2& pos);
+
+private:
+	enum class CtrlNodeType
+	{
+		UNKNOWN = 0,
+		XMIN_YMIN,
+		XMAX_YMIN,
+		XMAX_YMAX,
+		XMIN_YMAX,
+	};
 
 private:
 	EditView& m_view;
@@ -40,7 +50,8 @@ private:
 	sm::vec2 m_curr_pos;
 
 	ShapeCapture::NodeRef m_selected;
+	CtrlNodeType m_selected_node_type = CtrlNodeType::UNKNOWN;
 
-}; // EditCircleState
+}; // EditRectState
 
 }

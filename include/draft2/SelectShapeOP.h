@@ -1,10 +1,10 @@
 #pragma once
 
-#include "drawing2/ShapeCapture.h"
+#include "draft2/ShapeCapture.h"
 
 #include <ee0/EditOP.h>
 
-namespace dw2
+namespace draft2
 {
 
 class EditView;

@@ -1,10 +1,10 @@
-#include "drawing2/EditShapeOP.h"
+#include "draft2/EditShapeOP.h"
 
-#include "drawing2/EditPointState.h"
-#include "drawing2/EditLineState.h"
-#include "drawing2/EditRectState.h"
-#include "drawing2/EditCircleState.h"
-#include "drawing2/EditPolylineOP.h"
+#include "draft2/EditPointState.h"
+#include "draft2/EditLineState.h"
+#include "draft2/EditRectState.h"
+#include "draft2/EditCircleState.h"
+#include "draft2/EditPolylineOP.h"
 
 #include <geoshape/Point2D.h>
 #include <geoshape/Line2D.h>
@@ -15,7 +15,7 @@
 
 #include <wx/defs.h>
 
-namespace dw2
+namespace draft2
 {
 
 EditShapeOP::EditShapeOP(const std::shared_ptr<pt0::Camera>& cam, EditView& view,

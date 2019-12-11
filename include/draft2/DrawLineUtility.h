@@ -4,7 +4,7 @@
 
 #include <SM_Vector.h>
 
-namespace dw2
+namespace draft2
 {
 
 class DrawLineUtility

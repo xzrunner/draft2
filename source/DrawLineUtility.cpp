@@ -1,10 +1,10 @@
-#include "drawing2/DrawLineUtility.h"
+#include "draft2/DrawLineUtility.h"
 
 #include <SM_Calc.h>
 
 #include <wx/utils.h>
 
-namespace dw2
+namespace draft2
 {
 
 bool DrawLineUtility::IsStraightOpen(const std::vector<sm::vec2>& lines)

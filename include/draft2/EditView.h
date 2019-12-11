@@ -5,7 +5,7 @@
 
 namespace gs { class Shape2D; }
 
-namespace dw2
+namespace draft2
 {
 
 class EditView

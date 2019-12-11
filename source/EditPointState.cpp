@@ -1,10 +1,10 @@
-#include "drawing2/EditPointState.h"
+#include "draft2/EditPointState.h"
 
 #include <ee0/CameraHelper.h>
 
 #include <geoshape/Point2D.h>
 
-namespace dw2
+namespace draft2
 {
 
 EditPointState::EditPointState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,

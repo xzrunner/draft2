@@ -1,5 +1,5 @@
-#include "drawing2/EditCircleState.h"
-#include "drawing2/RenderStyle.h"
+#include "draft2/EditCircleState.h"
+#include "draft2/RenderStyle.h"
 
 #include <ee0/CameraHelper.h>
 
@@ -9,7 +9,7 @@
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
 
-namespace dw2
+namespace draft2
 {
 
 EditCircleState::EditCircleState(const std::shared_ptr<pt0::Camera>& camera, EditView& view,

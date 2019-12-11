@@ -1,6 +1,6 @@
-#include "drawing2/SelectShapeOP.h"
-#include "drawing2/RenderStyle.h"
-#include "drawing2/EditView.h"
+#include "draft2/SelectShapeOP.h"
+#include "draft2/RenderStyle.h"
+#include "draft2/EditView.h"
 
 #include <ee0/CameraHelper.h>
 
@@ -10,7 +10,7 @@
 #include <geoshape/Line2D.h>
 #include <geoshape/Polyline2D.h>
 
-namespace dw2
+namespace draft2
 {
 
 SelectShapeOP::SelectShapeOP(const std::shared_ptr<pt0::Camera>& cam,

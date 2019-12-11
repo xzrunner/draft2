@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drawing2/EditView.h"
+#include "draft2/EditView.h"
 
 #include <ee0/typedef.h>
 
@@ -8,7 +8,7 @@
 
 namespace ee0 { class SceneNodeContainer; }
 
-namespace dw2
+namespace draft2
 {
 
 class CommonEditView : public EditView

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "drawing2/ShapeCapture.h"
+#include "draft2/ShapeCapture.h"
 
 #include <ee0/EditOP.h>
 
@@ -9,7 +9,7 @@
 #include <vector>
 #include <functional>
 
-namespace dw2
+namespace draft2
 {
 
 class EditPolylineOP : public ee0::EditOP

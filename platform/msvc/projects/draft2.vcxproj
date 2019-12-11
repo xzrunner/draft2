@@ -11,18 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\drawing2\CommonEditView.h" />
-    <ClInclude Include="..\..\..\include\drawing2\EditLineState.h" />
-    <ClInclude Include="..\..\..\include\drawing2\RenderStyle.h" />
-    <ClInclude Include="..\..\..\include\drawing2\DrawLineUtility.h" />
-    <ClInclude Include="..\..\..\include\drawing2\EditPolylineOP.h" />
-    <ClInclude Include="..\..\..\include\drawing2\EditCircleState.h" />
-    <ClInclude Include="..\..\..\include\drawing2\EditPointState.h" />
-    <ClInclude Include="..\..\..\include\drawing2\EditRectState.h" />
-    <ClInclude Include="..\..\..\include\drawing2\EditShapeOP.h" />
-    <ClInclude Include="..\..\..\include\drawing2\SelectShapeOP.h" />
-    <ClInclude Include="..\..\..\include\drawing2\ShapeCapture.h" />
-    <ClInclude Include="..\..\..\include\drawing2\EditView.h" />
+    <ClInclude Include="..\..\..\include\draft2\CommonEditView.h" />
+    <ClInclude Include="..\..\..\include\draft2\EditLineState.h" />
+    <ClInclude Include="..\..\..\include\draft2\RenderStyle.h" />
+    <ClInclude Include="..\..\..\include\draft2\DrawLineUtility.h" />
+    <ClInclude Include="..\..\..\include\draft2\EditPolylineOP.h" />
+    <ClInclude Include="..\..\..\include\draft2\EditCircleState.h" />
+    <ClInclude Include="..\..\..\include\draft2\EditPointState.h" />
+    <ClInclude Include="..\..\..\include\draft2\EditRectState.h" />
+    <ClInclude Include="..\..\..\include\draft2\EditShapeOP.h" />
+    <ClInclude Include="..\..\..\include\draft2\SelectShapeOP.h" />
+    <ClInclude Include="..\..\..\include\draft2\ShapeCapture.h" />
+    <ClInclude Include="..\..\..\include\draft2\EditView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\DrawLineUtility.cpp" />
@@ -37,9 +37,9 @@
     <ClCompile Include="..\..\..\source\CommonEditView.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>3.drawing2</ProjectName>
+    <ProjectName>3.draft2</ProjectName>
     <ProjectGuid>{75155982-29A5-4AB4-924C-03DE0A904C17}</ProjectGuid>
-    <RootNamespace>drawing2</RootNamespace>
+    <RootNamespace>draft2</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -69,12 +69,12 @@
     <_ProjectFileVersion>15.0.26730.12</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\drawing2\x86\Debug\</OutDir>
-    <IntDir>..\drawing2\x86\Debug\obj\</IntDir>
+    <OutDir>..\draft2\x86\Debug\</OutDir>
+    <IntDir>..\draft2\x86\Debug\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\drawing2\x86\Release\</OutDir>
-    <IntDir>..\drawing2\x86\Release\obj\</IntDir>
+    <OutDir>..\draft2\x86\Release\</OutDir>
+    <IntDir>..\draft2\x86\Release\obj\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
