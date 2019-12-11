@@ -30,9 +30,10 @@ public:
 	uint32_t GetEditShapeType() const { return m_shape_type; }
 	void ChangeEditState(uint32_t shape_type, std::shared_ptr<gs::Shape2D> selected = nullptr);
 
-private:
+protected:
 	EditView& m_view;
 
+private:
 	uint32_t m_shape_type = 0;
 
 	ee0::EditOPPtr m_proxy_op = nullptr;
