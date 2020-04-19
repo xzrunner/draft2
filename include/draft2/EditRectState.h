@@ -25,7 +25,7 @@ public:
 	virtual bool OnMouseRelease(int x, int y) override;
 	virtual bool OnMouseDrag(int x, int y) override;
 
-	virtual bool OnDraw() const override;
+	virtual bool OnDraw(const ur2::Device& dev, ur2::Context& ctx) const override;
 	virtual bool Clear() override;
 
 private:

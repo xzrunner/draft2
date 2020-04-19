@@ -19,7 +19,7 @@ public:
 	virtual bool OnMouseRightDown(int x, int y) override;
 	virtual bool OnMouseMove(int x, int y) override;
 
-	virtual bool OnDraw() const override;
+	virtual bool OnDraw(const ur2::Device& dev, ur2::Context& ctx) const override;
 	virtual bool Clear() override;
 
 private:

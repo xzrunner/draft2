@@ -5,6 +5,7 @@
 #include <ee0/CameraHelper.h>
 
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
 #include <geoshape/Line2D.h>
@@ -54,9 +55,9 @@ bool SelectShapeOP::OnMouseMove(int x, int y)
 	return false;
 }
 
-bool SelectShapeOP::OnDraw() const
+bool SelectShapeOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-	if (ee0::EditOP::OnDraw()) {
+	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;
 	}
 	if (!m_active.shape && !m_hot.shape) {
@@ -90,7 +91,8 @@ bool SelectShapeOP::OnDraw() const
 		pt2::RenderSystem::DrawShape(pt, *m_hot.shape, COL_HOT_SHAPE, cam_scale);
 	}
 
-	pt2::RenderSystem::DrawPainter(pt);
+    ur2::RenderState rs;
+	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
 	return false;
 }

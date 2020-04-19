@@ -6,6 +6,7 @@
 #include <SM_Calc.h>
 #include <geoshape/Circle.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
 
@@ -58,7 +59,7 @@ bool EditCircleState::OnMouseDrag(int x, int y)
 	}
 }
 
-bool EditCircleState::OnDraw() const
+bool EditCircleState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
 	if (m_first_pos.IsValid() && m_curr_pos.IsValid())
 	{
@@ -66,7 +67,9 @@ bool EditCircleState::OnDraw() const
 		const float cam_scale = std::dynamic_pointer_cast<pt2::OrthoCamera>(m_camera)->GetScale();
 		const float radius = sm::dis_pos_to_pos(m_first_pos, m_curr_pos);
 		pt.AddCircle(m_first_pos, radius, COL_ACTIVE_SHAPE, cam_scale, static_cast<uint32_t>(radius * 0.5f));
-		pt2::RenderSystem::DrawPainter(pt);
+
+        ur2::RenderState rs;
+		pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 	}
 
 	return false;

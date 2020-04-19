@@ -6,6 +6,7 @@
 
 #include <SM_Calc.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 #include <geoshape/Polyline2D.h>
@@ -224,9 +225,9 @@ bool EditPolylineOP::OnMouseLeftDClick(int x, int y)
 	return false;
 }
 
-bool EditPolylineOP::OnDraw() const
+bool EditPolylineOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-	if (ee0::EditOP::OnDraw()) {
+	if (ee0::EditOP::OnDraw(dev, ctx)) {
 		return true;
 	}
 	if (m_polyline.empty()) {
@@ -253,7 +254,8 @@ bool EditPolylineOP::OnDraw() const
 		pt.AddCircleFilled(p, radius, COL_ACTIVE_NODE);
 	}
 
-	pt2::RenderSystem::DrawPainter(pt);
+    ur2::RenderState rs;
+	pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 
 	return false;
 }

@@ -6,6 +6,7 @@
 #include <SM_Calc.h>
 #include <tessellation/Painter.h>
 #include <geoshape/Line2D.h>
+#include <unirender2/RenderState.h>
 #include <painting2/OrthoCamera.h>
 #include <painting2/RenderSystem.h>
 
@@ -86,7 +87,7 @@ bool EditLineState::OnMouseDrag(int x, int y)
 	}
 }
 
-bool EditLineState::OnDraw() const
+bool EditLineState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
 	if (m_first_pos.IsValid() &&
         m_curr_pos.IsValid() &&
@@ -103,7 +104,8 @@ bool EditLineState::OnDraw() const
         pt.AddCircleFilled(m_first_pos, r, COL_ACTIVE_NODE);
         pt.AddCircleFilled(m_curr_pos, r, COL_ACTIVE_NODE);
 
-		pt2::RenderSystem::DrawPainter(pt);
+        ur2::RenderState rs;
+		pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 	}
 
 	return false;

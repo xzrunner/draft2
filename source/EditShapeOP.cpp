@@ -143,17 +143,17 @@ bool EditShapeOP::OnMouseLeftDClick(int x, int y)
 	return false;
 }
 
-bool EditShapeOP::OnDraw() const
+bool EditShapeOP::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
-	if (SelectShapeOP::OnDraw()) {
+	if (SelectShapeOP::OnDraw(dev, ctx)) {
 		return true;
 	}
 	if (m_proxy_op) {
-		return m_proxy_op->OnDraw();
+		return m_proxy_op->OnDraw(dev, ctx);
 	}
 
 	if (m_op_state) {
-		m_op_state->OnDraw();
+		m_op_state->OnDraw(dev, ctx);
 	}
 
 	return false;

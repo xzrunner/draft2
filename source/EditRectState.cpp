@@ -6,6 +6,7 @@
 #include <SM_Calc.h>
 #include <geoshape/Rect.h>
 #include <tessellation/Painter.h>
+#include <unirender2/RenderState.h>
 #include <painting2/RenderSystem.h>
 #include <painting2/OrthoCamera.h>
 
@@ -88,14 +89,16 @@ bool EditRectState::OnMouseDrag(int x, int y)
 	}
 }
 
-bool EditRectState::OnDraw() const
+bool EditRectState::OnDraw(const ur2::Device& dev, ur2::Context& ctx) const
 {
 	if (m_first_pos.IsValid() && m_curr_pos.IsValid())
 	{
 		tess::Painter pt;
 		float cam_scale = std::dynamic_pointer_cast<pt2::OrthoCamera>(m_camera)->GetScale();
 		pt.AddRect(m_first_pos, m_curr_pos, COL_ACTIVE_SHAPE, cam_scale);
-		pt2::RenderSystem::DrawPainter(pt);
+
+        ur2::RenderState rs;
+		pt2::RenderSystem::DrawPainter(dev, ctx, rs, pt);
 	}
 
 	return false;
